@@ -52,9 +52,10 @@ export function Button({
 
   // asChildの場合、子要素にクラスを適用
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children, {
-      className: `${combinedClassName} ${children.props.className || ''}`,
-    } as any);
+    const childElement = children as React.ReactElement<{ className?: string }>;
+    return React.cloneElement(childElement, {
+      className: `${combinedClassName} ${childElement.props.className || ''}`,
+    });
   }
 
   return (

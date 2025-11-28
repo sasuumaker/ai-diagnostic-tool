@@ -24,6 +24,7 @@ export interface Career {
   examples: string[];
   card_copy: string;
   ai_fit: string;
+  diagnosis_message: string; // 診断メッセージ
   image_path: string;
   version: string;
 }

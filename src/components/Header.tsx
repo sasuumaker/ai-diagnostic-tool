@@ -30,6 +30,12 @@ export function Header() {
             >
               診断を受ける
             </Link>
+            <Link
+              href="/stats"
+              className="text-sm font-medium text-slate-700 hover:text-[var(--color-primary)] transition-colors hidden md:block"
+            >
+              統計
+            </Link>
             <Button size="sm" asChild>
               <Link href="/quiz">診断を始める</Link>
             </Button>
