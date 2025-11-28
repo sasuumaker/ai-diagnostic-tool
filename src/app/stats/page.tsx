@@ -7,8 +7,11 @@ export const metadata: Metadata = {
   description: 'みんなの診断結果の統計情報をチェック',
 };
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+// 動的レンダリングを強制（Supabase環境変数がない場合のビルドエラーを回避）
+export const dynamic = 'force-dynamic';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 // MBTIタイプの日本語名マッピング
 const MBTI_LABELS: Record<string, string> = {
@@ -52,6 +55,18 @@ interface TypeCount {
 }
 
 export default async function StatsPage() {
+  // 環境変数がない場合はダミーデータを表示
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return (
+      <StatsContent
+        totalCount={0}
+        sortedStats={[]}
+        topTypes={[]}
+        mbtiLabels={MBTI_LABELS}
+      />
+    );
+  }
+
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
   // 結果の集計を取得
